@@ -7,7 +7,7 @@ RUN apk --no-cache add curl \
     && cp /usr/bin/fwatchdog /home/app \
     && apk del curl --no-cache
 
-FROM mcr.microsoft.com/dotnet/core/sdk:2.2 as builder
+FROM mcr.microsoft.com/dotnet/core/sdk:3.1 as builder
 
 # Supress collection of data.
 ENV DOTNET_CLI_TELEMETRY_OPTOUT 1
@@ -26,7 +26,7 @@ COPY .  .
 
 RUN dotnet publish -c release -o published
 
-FROM mcr.microsoft.com/dotnet/core/aspnet:2.2
+FROM mcr.microsoft.com/dotnet/core/runtime:3.1-alpine
 
 COPY --from=watchdog /usr/bin/fwatchdog  /usr/bin/
 
